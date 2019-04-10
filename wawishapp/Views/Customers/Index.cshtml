@@ -1,0 +1,17 @@
+﻿@model IEnumerable<wawishapp.Models.Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div>
+    Id | Name
+</div>
+@foreach (var item in Model)
+{
+    <div>
+        @item.Id | @item.Name
+    </div>
+}
+
