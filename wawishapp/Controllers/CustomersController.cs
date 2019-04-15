@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using wawishapp.Models;
+using wawishapp.Controllers.Base;
 
 namespace wawishapp.Controllers
 {
@@ -15,6 +16,11 @@ namespace wawishapp.Controllers
         {
             var customers = _context.Customers.Include(c => c.MembershipType).ToList();            
             return View(customers);
+        }
+
+        public ActionResult New()
+        {
+            return View();
         }
     }
 }

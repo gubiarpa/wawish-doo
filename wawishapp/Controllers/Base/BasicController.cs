@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using wawishapp.Models;
 
-namespace wawishapp.Controllers
+namespace wawishapp.Controllers.Base
 {
     public abstract class BasicController : Controller
     {

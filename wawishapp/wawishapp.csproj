@@ -174,7 +174,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BasicController.cs" />
+    <Compile Include="Controllers\Base\BasicController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201904121406533_AddColumnMembershipTypeName.cs" />
     <Compile Include="Migrations\201904121406533_AddColumnMembershipTypeName.Designer.cs">
       <DependentUpon>201904121406533_AddColumnMembershipTypeName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904150306131_AddColumnBirthdate.cs" />
+    <Compile Include="Migrations\201904150306131_AddColumnBirthdate.Designer.cs">
+      <DependentUpon>201904150306131_AddColumnBirthdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,6 +279,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Customers\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -315,6 +320,9 @@
     <EmbeddedResource Include="Migrations\201904121406533_AddColumnMembershipTypeName.resx">
       <DependentUpon>201904121406533_AddColumnMembershipTypeName.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904150306131_AddColumnBirthdate.resx">
+      <DependentUpon>201904150306131_AddColumnBirthdate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -325,6 +333,13 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild" Condition="!$(Disable_CopyWebApplication) And '$(OutDir)' != '$(OutputPath)'">
+    <ItemGroup>
+      <RoslynFiles Include="$(CscToolPath)\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
+    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>
