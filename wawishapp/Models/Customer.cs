@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using wawishapp.Models.Behavior;
 
 namespace wawishapp.Models
 {
-    public class Customer
+    public class Customer : IAssign<Customer>
     {
         public int Id { get; set; }
         [Required]
@@ -16,5 +14,16 @@ namespace wawishapp.Models
         public bool IsSubscribedToNewsletter { get; set; }
         public MembershipType MembershipType { get; set; }
         public byte MembershipTypeId { get; set; }
+
+        public void AssignMe(Customer entity)
+        {
+            if (this == null) return;
+
+            this.Name = entity.Name;
+            this.Birthdate = entity.Birthdate;
+            this.IsSubscribedToNewsletter = entity.IsSubscribedToNewsletter;
+            this.MembershipType = this.MembershipType;
+            this.MembershipTypeId = this.MembershipTypeId;
+        }
     }
 }
