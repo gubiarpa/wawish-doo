@@ -44,12 +44,21 @@ namespace wawishapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(CustomerFormViewModel customerFormViewModel)
+        public ActionResult Save(Customer customer)
         {
-            var customerSelected = _context.Customers.Single(c => c.Id == customerFormViewModel.Customer.Id);
-            customerSelected.AssignMe(customerFormViewModel.Customer);
+            if (customer.Id == 0)
+                _context.Customers.Add(customer);
+            else
+            {
+                var customerSelected = _context.Customers.Single(c => c.Id == customer.Id);
+                customerSelected.AssignMe(customer);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
             _context.SaveChanges();
-            return RedirectToAction("Index");
+
+            return View();
         }
 
         public ActionResult Details(int Id)
