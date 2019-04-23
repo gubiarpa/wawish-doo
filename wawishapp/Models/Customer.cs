@@ -22,8 +22,7 @@ namespace wawishapp.Models
             this.Name = entity.Name;
             this.Birthdate = entity.Birthdate;
             this.IsSubscribedToNewsletter = entity.IsSubscribedToNewsletter;
-            this.MembershipType = this.MembershipType;
-            this.MembershipTypeId = this.MembershipTypeId;
+            this.MembershipTypeId = entity.MembershipTypeId;
         }
     }
 }
