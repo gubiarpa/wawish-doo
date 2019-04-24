@@ -5,7 +5,7 @@
 }
 
 <h2>New Customer</h2>
-@using (Html.BeginForm("Create", "Customers"))
+@using (Html.BeginForm("Save", "Customers", FormMethod.Post, new { autocomplete = "off" }))
 {
     @* Name *@
     <div class="form-group">
@@ -15,7 +15,12 @@
     @* Birthdate *@
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Birthdate)
-        @Html.TextBoxFor(m => m.Customer.Birthdate, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:dd-MM-yyyy}", new { @class = "form-control" })
+    </div>
+    @* Membership Type *@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.MembershipType)
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select Membership Type", new { @class = "form-control" })
     </div>
     @* Is subscribed to newsletter *@
     <div class="checkbox">
@@ -23,4 +28,13 @@
             @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter
         </label>
     </div>
+    @* Submit *@
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}
+@* Para agregar scripts de validación del lado de cliente *@
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
 }

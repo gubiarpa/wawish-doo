@@ -1,37 +1,47 @@
 ﻿@model wawishapp.ViewModels.CustomerFormViewModel
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Edit Customer</h2>
-@using (Html.BeginForm("Save", "Customers"))
+@using (Html.BeginForm("Save", "Customers", FormMethod.Post, new { autocomplete = "off" }))
 {
-    @* Name *@
+    <!-- Validation Summary -->
+    @Html.ValidationSummary(true, "Please fix the followings errors.")
+    <!-- Name -->
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Name)
     </div>
-        @* Birthdate *@
-    <div class="form-group">
-        @Html.LabelFor(m => m.Customer.Birthdate)
-        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:dd-MM-yyyy}", new { @class = "form-control" })
-    </div>
-        @* Membership Type *@
+    <!-- Membership Type -->
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.MembershipType)
         @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
     </div>
-        @* Is subscribed to newsletter *@
+    <!-- Birthdate -->
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthdate)
+        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Birthdate)
+    </div>
+    <!-- Is subscribed to newsletter -->
     <div class="checkbox">
         <label>
             @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsletter) Subscribed to Newsletter
         </label>
     </div>
-        @* Submit *@
+    <!-- Submit -->
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
         @Html.HiddenFor(m => m.Customer.Id)
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">Save</button>
     </div>
+}
+@* Para agregar scripts de validación del lado de cliente *@
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
 }

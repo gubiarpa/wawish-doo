@@ -22,57 +22,63 @@ namespace wawishapp.Controllers
         {
             var viewModel = new CustomerFormViewModel()
             {
+                Customer = new Customer()
+                {
+                    Id = 0,
+                    Birthdate = DateTime.Now
+                },
                 MembershipTypes = _context.MembershipTypes.ToList()
             };
             return View(viewModel);
         }
 
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int Id = 0)
         {
-            var customer = _context.Customers.Single(c => c.Id == Id);
+            Customer customer;
 
+            // Busca el elemento o devuelve null
+            try
+            {
+                if (Id == 0) throw new Exception();
+                customer = _context.Customers.Single(c => c.Id == Id);
+            }
+            catch
+            {
+                customer = null;
+            }
+
+            // Redirige a "New" o carga "Edit" con el elemento.
             if (customer == null)
                 return RedirectToAction("New");
-
-            var viewModel = new CustomerFormViewModel()
-            {
-                Customer = customer,
-                MembershipTypes = _context.MembershipTypes.ToList()
-            };
-
-            return View(viewModel);
+            else
+                return View(new CustomerFormViewModel()
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                });            
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
-            if (customer.Id == 0)
-                _context.Customers.Add(customer);
-            else
+            if (!ModelState.IsValid)
             {
-                var customerSelected = _context.Customers.Single(c => c.Id == customer.Id);
-                customerSelected.AssignMe(customer);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                var viewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                };
+                return View("Edit", viewModel);
             }
+
+            if (customer.Id == 0)
+                _context.Customers.Add(customer); // Insert
+            else
+                _context.Customers.Single(c => c.Id == customer.Id).AssignMe(customer);
 
             _context.SaveChanges();
-
-            return View();
-        }
-
-        public ActionResult Details(int Id)
-        {
-            if (Id > 0)
-            {
-                var customer = _context.Customers.Include(c => c.MembershipType).Single(c => c.Id == Id);
-
-                if (customer == null)
-                    return new EmptyResult();
-
-                return View(customer);
-            }
-            return new HttpNotFoundResult();
+            return RedirectToAction("Index");
         }
     }
 }

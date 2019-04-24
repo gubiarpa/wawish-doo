@@ -1,4 +1,4 @@
-﻿@model IEnumerable<wawishapp.Models.Customer>
+﻿    @model IEnumerable<wawishapp.Models.Customer>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +28,7 @@ else
              {
                  <tr>
                      <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, new { title = string.Format("Editar a {0}", customer.Name) })</td>
-                     <td>@customer.Birthdate.ToString("dd-MM-yyyy")</td>
+                     <td>@customer.Birthdate.Value.ToString("dd-MM-yyyy")</td>
                      <td>@customer.MembershipType.MembershipName</td>
                      <td>@customer.MembershipType.DiscountRate %</td>
                  </tr>

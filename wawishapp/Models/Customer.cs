@@ -7,13 +7,21 @@ namespace wawishapp.Models
     public class Customer : IAssign<Customer>
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter customer's name")]
         [StringLength(255)]
         public string Name { get; set; }
-        public DateTime Birthdate { get; set; }
+
+        [Display(Name = "Date of Birth")]
+        [Min18YearsIfAMember]
+        public DateTime? Birthdate { get; set; }
+
         public bool IsSubscribedToNewsletter { get; set; }
+
         public MembershipType MembershipType { get; set; }
-        public byte MembershipTypeId { get; set; }
+
+        [Display(Name = "Membership Type")]
+        [Required(ErrorMessage = "Please select a membership type")]
+        public byte? MembershipTypeId { get; set; }
 
         public void AssignMe(Customer entity)
         {
