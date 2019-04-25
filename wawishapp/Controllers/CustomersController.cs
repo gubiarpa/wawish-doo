@@ -24,8 +24,7 @@ namespace wawishapp.Controllers
             {
                 Customer = new Customer()
                 {
-                    Id = 0,
-                    Birthdate = DateTime.Now
+                    Id = 0
                 },
                 MembershipTypes = _context.MembershipTypes.ToList()
             };
