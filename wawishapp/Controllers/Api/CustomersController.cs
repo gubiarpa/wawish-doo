@@ -33,9 +33,7 @@ namespace wawishapp.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateCustomer(CustomerDto customerDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-                //throw new HttpResponseException(HttpStatusCode.BadRequest); // ◄ Cuando devuelve Customer
+            if (!ModelState.IsValid) return BadRequest();
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
@@ -49,33 +47,34 @@ namespace wawishapp.Controllers.Api
 
         // PUT /api/Customers/1
         [HttpPut]
-        public void UpdateCustomer(int Id, CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int Id, CustomerDto customerDto)
         {
-            if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            if (!ModelState.IsValid) return BadRequest();
 
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == Id);
 
-            if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+            if (customerInDb == null) return NotFound(); 
 
             // Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb); // ◄ Reemplaza "Assign"
             Mapper.Map(customerDto, customerInDb); // ▲ Omite los tipos porque es innecesario
 
             _context.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE /api/Customers/1
         [HttpDelete]
-        public void DeleteCustomer(int Id)
+        public IHttpActionResult DeleteCustomer(int Id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == Id);
 
-            if (customerInDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+            if (customerInDb == null) return BadRequest();
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
