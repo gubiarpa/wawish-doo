@@ -14,7 +14,7 @@
             <th>Customer</th>
             <th>Birthdate</th>
             <th>Membership Type</th>
-            <th>Delete</th>
+            <th>Options</th>
         </tr>
     </thead>
     <tbody>            
@@ -26,7 +26,7 @@
         // ▼ Assign a method for each '#customers .js-delete' elements
         $(document).ready(function () {
 
-            /* *** Load Customers *** */
+            // ▼ Load Customers
             var table = $("#customers").DataTable({
                 ajax: {
                     url: "/api/Customers",
@@ -51,17 +51,18 @@
                     {
                         data: "membershipType.membershipName"
                     },
-                    /* Column 4 */
+                    /* Column 4 (actions) */
                     {
                         data: "id",
                         render: function (data) {
-                            return "<button class='btn-link js-delete' data-customer-id='" + data + "'>Delete</button>";
+                            var btnDelete = "<button class='btn-link js-delete' data-customer-id='" + data + "'>Delete</button>";
+                            return btnDelete;
                         }
                     }
                 ]
             });
 
-            /* *** Delete Customer *** */
+            // ▼ Delete Customer
             $('#customers').on("click", ".js-delete", function () {
                 var button = $(this); // ◄ Saves the button element
                 // ▼ Executes DELETE method for an existing Web API
