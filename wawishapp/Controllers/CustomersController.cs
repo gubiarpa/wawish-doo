@@ -14,8 +14,7 @@ namespace wawishapp.Controllers
     {
         public ActionResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();            
-            return View(customers);
+            return View();
         }
 
         public ActionResult New()

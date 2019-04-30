@@ -17,6 +17,8 @@ namespace wawishapp.Dtos
 
         public bool IsSubscribedToNewsletter { get; set; }
         
+        public MembershipTypeDto MembershipType { get; set; }
+
         [Required(ErrorMessage = "Please select a membership type")]
         public byte? MembershipTypeId { get; set; }
     }
