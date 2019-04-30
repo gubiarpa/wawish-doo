@@ -65,16 +65,16 @@ namespace wawishapp.Controllers.Api
 
         // DELETE /api/Customers/1
         [HttpDelete]
-        public IHttpActionResult DeleteCustomer(int Id)
+        public void DeleteCustomer(int Id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == Id);
 
-            if (customerInDb == null) return BadRequest();
+            if (customerInDb == null) return /*BadRequest()*/;
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
 
-            return Ok();
+            //return Ok();
         }
     }
 }
