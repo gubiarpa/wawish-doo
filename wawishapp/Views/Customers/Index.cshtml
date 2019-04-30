@@ -45,7 +45,9 @@ else
     <script>
         // ▼ Assign a method for each '#customers .js-delete' elements
         $(document).ready(function () {
-            $('#customers .js-delete').on("click", function () {
+            $("#customers").DataTable();
+
+            $('#customers').on("click", ".js-delete", function () {
                 var button = $(this); // ◄ Saves the button element
                 // ▼ Executes DELETE method for an existing Web API
                 bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
