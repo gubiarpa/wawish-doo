@@ -44,4 +44,16 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // ▼ Load Customer            
+            $.ajax({
+                url: "/api/customers/" + button.attr("data-customer-id"),
+                method: "GET",
+                success: function () {
+                    table.row(button.parents("tr")).remove().draw();
+                }
+            });
+        });
+    </script>
 }

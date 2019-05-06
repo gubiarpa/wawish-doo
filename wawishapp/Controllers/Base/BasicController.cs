@@ -7,6 +7,7 @@ using wawishapp.Models;
 
 namespace wawishapp.Controllers.Base
 {
+    [Authorize]
     public abstract class BasicController : Controller
     {
         protected ApplicationDbContext _context;
